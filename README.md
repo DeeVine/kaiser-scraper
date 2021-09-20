@@ -15,7 +15,7 @@ Methodology:
 <li>Utilizes puppeteer to navigate dom
 <li>Waits for html elements to load before scraping data from the page and pushing json records into an array
 <li>Clicks 'Next' in navigation to populate next 20 records and pushes to array, repeats twice for a total of 60 records
-<li>Lastly Express route sends array of json data
+<li>Lastly json data/html format is sent by express route
 </ul>
 
 To run program locally, pull the branch, then run npm install to get dependencies. In terminal once in program directory, run command 'node scrape.js'. Go to browser http://localhost:3000/kaiser. The scrape may take about 10-15 seconds as the kaiser pages take some time to load.
