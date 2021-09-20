@@ -8,3 +8,12 @@ Data structure for each record:
 'practicingAddress': office,
 'doctorAddress': address,
 'doctorPhone': phone}
+
+Methodology:
+
+<ul>
+<li>Utilizes puppeteer to navigate to https://healthy.kaiserpermanente.org/northern-california/doctors-locations#/search-result
+<li>Waits for html elements to lead before scraping data from the page and pushing json records into an array
+<li>Clicks 'Next' in navigation to populate next 20 records and pushes to array, repeats twice for a total of 60 records
+<li>Lastly express route sends json data
+</ul>
