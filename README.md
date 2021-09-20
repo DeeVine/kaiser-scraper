@@ -17,3 +17,5 @@ Methodology:
 <li>Clicks 'Next' in navigation to populate next 20 records and pushes to array, repeats twice for a total of 60 records
 <li>Lastly Express route sends array of json data
 </ul>
+
+To run program locally, pull the branch, then run npm install to get dependencies. In terminal once in program directory, run node scrape.js. Go to browser http://localhost:3000/kaiser. The scrape may take about 10-15 seconds as the kaiser pages take some time to load.
