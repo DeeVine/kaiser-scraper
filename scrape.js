@@ -1,4 +1,16 @@
+const express = require('express')
+const app = express()
+const port = 3000
 const puppeteer = require ('puppeteer');
+const json2html = require('json2html')
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 
 //initiating Puppeteer
 const puppet = () => puppeteer
@@ -151,15 +163,8 @@ const puppet = () => puppeteer
         return scrapeItems;
       }).then( async res => {
         alldocinfo = alldocinfo.concat(res);
-        // console.log('alldocinfo2')
-        // console.log(alldocinfo)
-        // console.log(alldocinfo.length)
         return alldocinfo;
       })  
-      // console.log(alldocinfo)
-      // const mydata = alldocinfo;
-      // console.log('mydata')
-      // console.log(mydata)
       return alldocinfo;
     })
     console.log(getdoctorinfo)
@@ -172,9 +177,10 @@ const puppet = () => puppeteer
     console.error (err);
   });
 
-  // const mydata = puppet()
-  puppet().then( res => {
-    console.log('res');
-    console.log(res)
-  })
-  // console.log(mydata);
+  //send data with simple json2html formatter
+  app.get('/kaiser', (req, res) => {
+    puppet().then( data => {
+      res.send(json2html.render(data));
+    })
+  })  
+ 
