@@ -17,7 +17,7 @@ const puppet = () => puppeteer
   .launch ()
   .then (async browser => {
   
-    //opening a new page and navigating to Reddit
+    //opening a new page and navigating to Kaiser
     const page = await browser.newPage ();
     await page.goto ('https://healthy.kaiserpermanente.org/northern-california/doctors-locations#/search-result');
     await page.waitForSelector ('.detail-data', {
@@ -177,7 +177,7 @@ const puppet = () => puppeteer
     console.error (err);
   });
 
-  //send data with simple json2html formatter
+  //send data with json2html format, if raw json is desired you can remove json2html and just send 'data' directly.
   app.get('/kaiser', (req, res) => {
     puppet().then( data => {
       res.send(json2html.render(data));
