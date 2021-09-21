@@ -20,7 +20,7 @@ const puppet = () => puppeteer
     //opening a new page and navigating to Kaiser
     const page = await browser.newPage ();
 
-    await page.goto ('https://healthy.kaiserpermanente.org/northern-california/doctors-locations#/search-result');
+    await page.goto ('https://healthy.kaiserpermanente.org/northern-california/doctors-locations#/search-result?region=NCA&searchType=doctors&city_label=Redwood%20City');
     await page.waitForSelector ('.detail-data', {
         visible: true,
     });
@@ -187,7 +187,7 @@ const puppet = () => puppeteer
           });
         })
         return scrapeItems;
-        
+
       }).then( async res => {
         alldocinfo = alldocinfo.concat(res);
         return alldocinfo;
