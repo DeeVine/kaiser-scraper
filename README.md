@@ -1,13 +1,12 @@
-<b>Screen recording of app working:</b> https://www.loom.com/share/962e53e1c69d4399814176260fd4a25d 
+<b>Screen recording of app working:</b> https://www.loom.com/share/47c98993cb474a2fa9f9323166c72e98
 
 This program scrapes Kaiser's website for doctor info, retrieves 60 doctor records in json data format, and displays in a basic html table with json2html
 
 Data structure for each record:
 {'physicianName': name,
 'physicianSpecialty': specialty,
-'practicingAddress': office,
-'doctorAddress': address,
-'doctorPhone': phone}
+'practicingAddress': fullAddress,
+'phone': phone}
 
 Methodology:
 

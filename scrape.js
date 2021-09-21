@@ -9,7 +9,7 @@ app.listen(port, () => {
 })
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send("<button><a href='http://localhost:3000/kaiser'>Scrape 60 Doctors</a></button>")
 })
 
 //initiating Puppeteer
@@ -19,6 +19,7 @@ const puppet = () => puppeteer
   
     //opening a new page and navigating to Kaiser
     const page = await browser.newPage ();
+
     await page.goto ('https://healthy.kaiserpermanente.org/northern-california/doctors-locations#/search-result');
     await page.waitForSelector ('.detail-data', {
         visible: true,
@@ -26,44 +27,51 @@ const puppet = () => puppeteer
 
     //manipulating the page's content
     let getdoctorinfo = await page.evaluate (() => {
+
       //wait for '.detail-data' to load before scraping
       let allInfo = document.body.querySelectorAll ('.detail-data');
-      
-      const scraper = (info) => {
-        let scrapeItems = [];
-        info.forEach (item => {
-          let name = item.querySelector ('h2').innerText;
-          let specialty = '';
-          let office = '';
-          let address = '';    
-          let phone = ''; 
-          
-          try {
-            specialty = item.querySelector ('.specialtyMargin').innerText;
-          } catch (err) {}
-          try {
-            office = item.querySelector ('.doctorOffice').innerText;
-          } catch (err) {}
-          try {
-            address = item.querySelector ('.doctorAddress').innerText;
-          } catch (err) {}
-          try {
-            phone = item.querySelector ('.doctorPhone').innerText;
-          } catch (err) {}
-          scrapeItems.push ({
-            'physicianName': name,
-            'physicianSpecialty': specialty,
-            'practicingAddress': office,
-            'doctorAddress': address,
-            'doctorPhone': phone,
-          });
-        })
-        return scrapeItems
-      }
+           
+      let scrapeItems = [];
+      allInfo.forEach (item => {
+        let name = item.querySelector ('h2').innerText;
+        let specialty = '';
+        let office = '';
+        let address = '';    
+        let phone = ''; 
+        
+        try {
+          specialty = item.querySelector ('.specialtyMargin').innerText;
+        } catch (err) {}
+        try {
+          office = item.querySelector ('.doctorOffice').innerText;
+        } catch (err) {}
+        try {
+          address = item.querySelector ('.doctorAddress').innerText;
+        } catch (err) {}
+        try {
+          phone = item.querySelector ('.doctorPhone').innerText;
+        } catch (err) {}
 
-      return scraper(allInfo);
+        //combine doctorOffice with doctorAddress
+        let fullAddress;
+        if (office) {
+          fullAddress = office.concat('\n' + address);
+        }
+        else {
+          fullAddress = address;
+        }
+
+        scrapeItems.push ({
+          'physicianName': name,
+          'physicianSpecialty': specialty,
+          'practicingAddress': fullAddress,
+          'phone': phone,
+        });
+      })
+      return scrapeItems;
+
     }).then( async res => {
-      
+
       let alldocinfo = res;
       linkHandlers = await page.$x("//span[contains(text(), 'Next')]");
       //click navigation 'next' button
@@ -102,16 +110,25 @@ const puppet = () => puppeteer
           try {
             phone = item.querySelector ('.doctorPhone').innerText;
           } catch (err) {}
+
+          //combine doctorOffice with doctorAddress
+          let fullAddress;
+          if (office) {
+            fullAddress = office.concat('\n' + address);
+          }
+          else {
+            fullAddress = address;
+          }
+
           scrapeItems.push ({
             'physicianName': name,
             'physicianSpecialty': specialty,
-            'practicingAddress': office,
-            'doctorAddress': address,
-            'doctorPhone': phone,
+            'practicingAddress': fullAddress,
+            'phone': phone,
           });
         })
         return scrapeItems;
-        
+
       }).then( async res => {
         alldocinfo = alldocinfo.concat(res);
       })
@@ -152,22 +169,31 @@ const puppet = () => puppeteer
           try {
             phone = item.querySelector ('.doctorPhone').innerText;
           } catch (err) {}
+
+          //combine doctorOffice with doctorAddress
+          let fullAddress;
+          if (office) {
+            fullAddress = office.concat('\n' + address);
+          }
+          else{
+            fullAddress = address;
+          }
+          
           scrapeItems.push ({
             'physicianName': name,
             'physicianSpecialty': specialty,
-            'practicingAddress': office,
-            'doctorAddress': address,
-            'doctorPhone': phone,
+            'practicingAddress': fullAddress,
+            'phone': phone,
           });
         })
         return scrapeItems;
+        
       }).then( async res => {
         alldocinfo = alldocinfo.concat(res);
         return alldocinfo;
       })  
       return alldocinfo;
     })
-    console.log(getdoctorinfo)
     //closing the browser
     await browser.close ();
     return getdoctorinfo
