@@ -11,7 +11,7 @@ Data structure for each record:
 Methodology:
 
 <ul>
-<li>Utilizes puppeteer to navigate dom
+<li>Utilizes puppeteer to navigate dom and select text from desired elements such as .specialtyMargin and .doctorOffice.
 <li>Waits for html elements to load before scraping data from the page and pushing json records into an array
 <li>Clicks 'Next' in navigation to populate next 20 records and pushes to array, repeats twice for a total of 60 records
 <li>Lastly json data/html format is sent by express route
