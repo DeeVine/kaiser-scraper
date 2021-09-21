@@ -21,8 +21,12 @@ const puppet = () => puppeteer
     const page = await browser.newPage ();
 
     await page.goto ('https://healthy.kaiserpermanente.org/northern-california/doctors-locations#/search-result?region=NCA&searchType=doctors&city_label=Redwood%20City');
+    //wait for required elements to populate before begining scrape
     await page.waitForSelector ('.detail-data', {
         visible: true,
+    });
+    await page.waitForSelector ('.kpPagination__list', {
+      visible: true,
     });
 
     //manipulating the page's content
@@ -84,6 +88,9 @@ const puppet = () => puppeteer
       await page.waitForSelector ('.detail-data', {
         visible: true,
       });
+      await page.waitForSelector ('.kpPagination__list', {
+        visible: true,
+      });
 
       await page.evaluate (() => {
         //wait for '.detail-data' to load before scraping
@@ -141,6 +148,9 @@ const puppet = () => puppeteer
       }
 
       await page.waitForSelector ('.detail-data', {
+        visible: true,
+      });
+      await page.waitForSelector ('.kpPagination__list', {
         visible: true,
       });
 
