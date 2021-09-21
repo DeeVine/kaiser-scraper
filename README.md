@@ -1,4 +1,4 @@
-<b>Screen recording of app working:</b> https://www.loom.com/share/47c98993cb474a2fa9f9323166c72e98
+<b>Screen recording of app working:</b> https://www.loom.com/share/4d4ed11486e74927adf8b36e40917bd7
 
 This program scrapes Kaiser's website for Redwood City physician info, retrieves 60 physician records in json data format, and displays in a basic html table with json2html
 
